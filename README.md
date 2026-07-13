@@ -61,7 +61,6 @@ Sematrix is a unified, distraction-free study workspace designed to consolidate 
    ```bash
    npm run dev
    ```
+## License
 
-## Deployment
-
-Refer to the deployment instructions to host the Node.js API (e.g., on Render) and the static React build (e.g., on Vercel or Netlify). Make sure to configure the `VITE_API_URL` environment variable on your frontend host to route API requests to your live backend.
+This project is licensed under the MIT License - see the LICENSE file for details. Copyright S Sanjith Kumar.
