@@ -1,0 +1,206 @@
+.focus-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+}
+
+/* ---- ACTIVE TIMER RING ---- */
+.ft-active-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.75rem 0;
+}
+
+.ft-ring-container {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+
+.ft-ring-time {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 4px 20px rgba(55, 170, 156, 0.4);
+}
+
+/* ---- DRUM ROLL PICKER ---- */
+.ft-picker-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.ft-drum-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+.ft-step-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  border-radius: 8px;
+}
+
+.ft-step-btn:hover:not(:disabled) {
+  color: #94F3E4;
+  background: rgba(148, 243, 228, 0.08);
+}
+
+.ft-step-btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.ft-drum-outer {
+  position: relative;
+  width: 140px;
+  height: 168px; /* 3 items visible: 56px * 3 */
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* The selection highlight band */
+.ft-drum-highlight {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 56px;
+  background: rgba(148, 243, 228, 0.08);
+  border-top: 1.5px solid rgba(148, 243, 228, 0.35);
+  border-bottom: 1.5px solid rgba(148, 243, 228, 0.35);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Fade masks */
+.ft-drum-fade-top,
+.ft-drum-fade-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 60px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.ft-drum-fade-top {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(15, 15, 30, 0.95) 0%, transparent 100%);
+}
+
+.ft-drum-fade-bottom {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(15, 15, 30, 0.95) 0%, transparent 100%);
+}
+
+/* Scrollable list — padding lets first/last items sit at center */
+.ft-drum-scroll {
+  height: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 56px 0; /* exactly ITEM_HEIGHT so item 0 can center */
+}
+
+.ft-drum-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.ft-picker-label {
+  color: #B8B8B8;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.5rem;
+}
+
+/* Each item */
+.ft-drum-item {
+  height: 56px;
+  scroll-snap-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.ft-drum-num {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.22);
+  transition: all 0.25s ease;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ft-drum-unit {
+  font-size: 0.75rem;
+  color: rgba(148, 243, 228, 0.7);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ft-drum-item--selected .ft-drum-num {
+  font-size: 2.2rem;
+  color: #94F3E4;
+  text-shadow: 0 0 20px rgba(148, 243, 228, 0.5);
+}
+
+/* Controls */
+.timer-controls {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  align-items: center;
+}
+
+.icon-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
