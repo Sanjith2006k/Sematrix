@@ -105,21 +105,21 @@ const DashboardPreview = () => {
           </div>
         </MotionGlassCard>
 
-        {/* Upcoming Exam Card */}
+        {/* DSA Challenge Card */}
         <MotionGlassCard 
           className="exam-card" 
           variants={cardVariants}
           animate={{ ...floatAnimation, transition: { ...floatAnimation.transition, delay: 1 } }}
         >
-          <div className="card-title" style={{ color: '#FF94B4' }}>
-            <AlertCircle size={18} />
-            Upcoming Exam
+          <div className="card-title" style={{ color: '#06B6D4' }}>
+            <BookOpen size={18} />
+            Daily DSA
           </div>
           <div style={{ marginTop: '0.5rem', fontSize: '1.1rem', fontWeight: '600' }}>
-            Advanced Calculus
+            Two Sum
           </div>
           <div style={{ color: '#B8B8B8', fontSize: '0.9rem', marginTop: '0.25rem' }}>
-            In 3 days
+            LeetCode • Easy
           </div>
         </MotionGlassCard>
 
