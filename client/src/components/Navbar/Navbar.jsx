@@ -60,9 +60,9 @@ export default function Navbar() {
           </a>
         ))}
 
-        <Link to="/login">Login</Link>
+        <Link to="/login" onClick={() => setOpen(false)} className="mobile-login-btn">Login</Link>
 
-        <Link to="/register">Get Started</Link>
+        <Link to="/register" onClick={() => setOpen(false)} className="mobile-register-btn">Get Started</Link>
       </div>
     </>
   );
