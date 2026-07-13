@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
-import { BrainCircuit } from 'lucide-react';
+import { BrainCircuit, Eye, EyeOff } from 'lucide-react';
 import Aurora from '../../components/Aurora/Aurora';
 import Button from '../../components/Button/Button';
 import { useAuth } from '../../context/AuthContext';
@@ -11,6 +11,7 @@ import './Login.css';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { login, user } = useAuth();
   const navigate = useNavigate();
@@ -83,15 +84,25 @@ export default function Login() {
               <label className="input-label" htmlFor="password">Password</label>
               <Link to="#" className="auth-link" style={{ fontSize: '0.8rem' }}>Forgot password?</Link>
             </div>
-            <input 
-              type="password" 
-              id="password" 
-              className="input-field" 
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required 
-            />
+            <div className="password-input-wrapper">
+              <input 
+                type={showPassword ? "text" : "password"}
+                id="password" 
+                className="input-field" 
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required 
+              />
+              <button 
+                type="button" 
+                className="password-toggle-btn"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <div className="auth-btn-wrapper">

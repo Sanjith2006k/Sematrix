@@ -179,6 +179,9 @@ export default function AuthNavbar() {
                       placeholder="Confirm new password"
                       required
                     />
+                    <button type="button" className="settings-eye" onClick={() => setShowNew(!showNew)}>
+                      {showNew ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
                   </div>
                 </div>
 
