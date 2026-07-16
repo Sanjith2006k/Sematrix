@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   // Set axios default base URL (adjust to match backend)
   axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  axios.defaults.timeout = 40000; // 40 seconds timeout
 
   useEffect(() => {
     const checkLoggedIn = async () => {

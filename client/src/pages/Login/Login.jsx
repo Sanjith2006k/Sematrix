@@ -4,6 +4,7 @@ import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { BrainCircuit, Eye, EyeOff } from 'lucide-react';
 import Aurora from '../../components/Aurora/Aurora';
 import Button from '../../components/Button/Button';
+import ServerWakeup from '../../components/Loader/ServerWakeup';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import './Login.css';
@@ -13,6 +14,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isWakingServer, setIsWakingServer] = useState(false);
   const { login, user } = useAuth();
   const navigate = useNavigate();
 
@@ -24,16 +26,40 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    let timeoutId;
+    if (!sessionStorage.getItem("serverReady")) {
+      timeoutId = setTimeout(() => {
+        setIsWakingServer(true);
+      }, 1500);
+    }
+
     try {
       await login(email, password);
+      
+      if (timeoutId) clearTimeout(timeoutId);
+      sessionStorage.setItem("serverReady", "true");
+      setIsWakingServer(false);
+
       toast.success('Successfully logged in!');
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      if (timeoutId) clearTimeout(timeoutId);
+      setIsWakingServer(false);
+      
+      if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+        toast.error("Server took too long to respond. Please try again.");
+      } else {
+        toast.error(error.response?.data?.message || 'Login failed');
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  if (isWakingServer) {
+    return <ServerWakeup />;
+  }
 
   return (
     <div className="auth-container">

@@ -4,6 +4,7 @@ import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { BrainCircuit, Eye, EyeOff } from 'lucide-react';
 import Aurora from '../../components/Aurora/Aurora';
 import Button from '../../components/Button/Button';
+import ServerWakeup from '../../components/Loader/ServerWakeup';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import '../Login/Login.css'; // Reusing auth styling
@@ -16,6 +17,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isWakingServer, setIsWakingServer] = useState(false);
   const { register, user } = useAuth();
   const navigate = useNavigate();
 
@@ -30,16 +32,40 @@ export default function Register() {
     }
     
     setLoading(true);
+
+    let timeoutId;
+    if (!sessionStorage.getItem("serverReady")) {
+      timeoutId = setTimeout(() => {
+        setIsWakingServer(true);
+      }, 1500);
+    }
+
     try {
       await register(name, email, password);
+      
+      if (timeoutId) clearTimeout(timeoutId);
+      sessionStorage.setItem("serverReady", "true");
+      setIsWakingServer(false);
+
       toast.success('Account created successfully!');
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Registration failed');
+      if (timeoutId) clearTimeout(timeoutId);
+      setIsWakingServer(false);
+      
+      if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+        toast.error("Server took too long to respond. Please try again.");
+      } else {
+        toast.error(error.response?.data?.message || 'Registration failed');
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  if (isWakingServer) {
+    return <ServerWakeup />;
+  }
 
   return (
     <div className="auth-container">

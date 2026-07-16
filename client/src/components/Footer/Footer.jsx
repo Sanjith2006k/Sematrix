@@ -19,7 +19,7 @@ export default function Footer() {
         <div className="footer-links">
           <a href="https://github.com/Sanjith2006k" target="_blank" rel="noopener noreferrer" className="footer-github">
             <Code size={20} />
-            <span>Built by @Sanjith </span>
+            <span>Made by Sanjith2006k</span>
           </a>
         </div>
       </div>
