@@ -15,7 +15,7 @@ const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const COLORS = ['#37AA9C', '#94F3E4', '#FF94B4', '#B497CF', '#F3D250', '#F7786B'];
 
 export default function Timetable() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
   
   const [subjects, setSubjects] = useState([]);
@@ -119,7 +119,8 @@ export default function Timetable() {
 
   const saveTimeSlots = async () => {
     try {
-      await axios.put('/api/timetable/slots', { timeSlots });
+      const res = await axios.put('/api/timetable/slots', { timeSlots });
+      setUser({ ...user, timeSlots: res.data });
       toast.success('Time blocks saved!');
     } catch (error) {
       toast.error('Failed to save time blocks');

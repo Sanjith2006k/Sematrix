@@ -132,18 +132,16 @@ export default function Dashboard() {
             const slotMinutes = parseTimeToMinutes(slotTimeStr);
             const slotEndMinutes = slotMinutes + 60; 
 
-            if (currentMinutes < slotEndMinutes) {
-              upcomingOrActiveEntries.push(entry);
-              
-              if (currentMinutes >= slotMinutes && currentMinutes < slotEndMinutes) {
-                active = { ...entry, timeStr: slotTimeStr };
-              } else if (currentMinutes < slotMinutes && !next) {
-                next = { ...entry, timeStr: slotTimeStr };
-              }
+            // We still want to show all of today's entries in the timetable, 
+            // so we don't filter entriesForToday, we just find active/next
+            if (currentMinutes >= slotMinutes && currentMinutes < slotEndMinutes) {
+              active = { ...entry, timeStr: slotTimeStr };
+            } else if (currentMinutes < slotMinutes && !next) {
+              next = { ...entry, timeStr: slotTimeStr };
             }
           }
 
-          setTodayEntries(upcomingOrActiveEntries);
+          setTodayEntries(entriesForToday);
           setActiveSession(active);
           setNextSession(next);
         } else {
@@ -171,7 +169,7 @@ export default function Dashboard() {
     }
   }, [user]);
 
-  const targetSession = activeSession || nextSession;
+  const targetSession = activeSession || nextSession || (todayEntries.length > 0 ? todayEntries[0] : null);
   const lastFetchedSubject = useRef(null);
 
   useEffect(() => {
@@ -478,7 +476,7 @@ export default function Dashboard() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                       <div style={{ padding: '1rem', background: 'rgba(148, 243, 228, 0.1)', borderRadius: '8px', borderLeft: '4px solid #94F3E4' }}>
                         <h3 style={{ color: '#FFFFFF', fontSize: '1.1rem', marginBottom: '0.5rem' }}>
-                          {activeSession ? 'Current Focus: ' : 'Upcoming Focus: '}
+                          {activeSession ? 'Current Focus: ' : nextSession ? 'Upcoming Focus: ' : 'Today\'s Focus: '}
                           {targetSession.subject?.name}
                         </h3>
                         <p style={{ color: '#B8B8B8', fontSize: '0.9rem', lineHeight: '1.5' }}>
